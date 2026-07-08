@@ -1,0 +1,34 @@
+# Dependencies
+node_modules
+.pnpm
+
+# Build
+dist
+build
+
+# Environment
+.env
+.env.*
+
+# Logs
+logs
+*.log
+
+# Coverage
+coverage
+
+# Mac
+.DS_Store
+
+# VS Code
+.vscode
+
+# Uploads
+uploads
+exports
+
+# Turbo
+.turbo
+
+# Generated
+*.tsbuildinfo
