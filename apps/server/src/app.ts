@@ -9,6 +9,7 @@ import {
 } from "./core/middleware";
 import { registerErrorHandler } from "./core/errors/error-handler";
 import { truncateSync } from "node:fs";
+import { registerJobModule } from "./modules/jobs";
 
 export async function buildApp() {
   const app = Fastify({
@@ -23,6 +24,8 @@ export async function buildApp() {
   registerErrorHandler(app);
 
   await registerHealthModule(app);
+
+  await registerJobModule(app);
 
   return app;
 }
