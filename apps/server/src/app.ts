@@ -10,7 +10,7 @@ import {
 import { registerErrorHandler } from "./core/errors/error-handler";
 import { truncateSync } from "node:fs";
 import { registerJobModule } from "./modules/jobs";
-
+import { registerUploadModule } from "./modules/upload";
 export async function buildApp() {
   const app = Fastify({
     logger: true,
@@ -26,6 +26,6 @@ export async function buildApp() {
   await registerHealthModule(app);
 
   await registerJobModule(app);
-
+  await registerUploadModule(app);
   return app;
 }
