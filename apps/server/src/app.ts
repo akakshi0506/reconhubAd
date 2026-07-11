@@ -1,16 +1,15 @@
 import Fastify from "fastify";
 
-import { logger } from "./core/logger";
-import { registerPlugins } from "./core/plugins";
-import { registerHealthModule } from "./modules/health";
+import { registerErrorHandler } from "./core/errors/error-handler";
 import {
   requestIdMiddleware,
   requestLogger,
 } from "./core/middleware";
-import { registerErrorHandler } from "./core/errors/error-handler";
-import { truncateSync } from "node:fs";
+import { registerPlugins } from "./core/plugins";
+import { registerHealthModule } from "./modules/health";
 import { registerJobModule } from "./modules/jobs";
 import { registerUploadModule } from "./modules/upload";
+
 export async function buildApp() {
   const app = Fastify({
     logger: true,
@@ -24,8 +23,8 @@ export async function buildApp() {
   registerErrorHandler(app);
 
   await registerHealthModule(app);
-
   await registerJobModule(app);
   await registerUploadModule(app);
+
   return app;
 }

@@ -3,8 +3,10 @@ import type {
   FastifyRequest,
 } from "fastify";
 
+import { AppError } from "../../core/errors/app-error";
 import { ApiResponse } from "../../core/responses/api-response";
 import { uploadService } from "./service";
+import { uploadValidator } from "./validator";
 
 export class UploadController {
   async upload(
@@ -22,22 +24,29 @@ export class UploadController {
     const file = await request.file();
 
     if (!file) {
-      throw new Error("No file uploaded");
+      throw new AppError(
+        "No file uploaded",
+        400,
+        "NO_FILE_UPLOADED"
+      );
     }
 
-    const buffer = await file.toBuffer();
-
-    await uploadService.saveUploadedFile(
-      jobId,
-      file.filename,
-      buffer
+    const filename = uploadValidator.validate(
+      file.filename
     );
+
+    const uploadedFile =
+      await uploadService.uploadFile(
+        jobId,
+        filename,
+        file.filename,
+        file.mimetype,
+        file.file
+      );
 
     return reply.send(
       ApiResponse.success(
-        {
-          filename: file.filename,
-        },
+        uploadedFile,
         "File uploaded successfully",
         request.requestId
       )
