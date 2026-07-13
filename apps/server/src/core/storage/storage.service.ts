@@ -15,6 +15,10 @@ const STORAGE_ROOT = path.resolve(
 export class StorageService {
   private readonly storageRoot = STORAGE_ROOT;
 
+     getStorageRoot(): string {
+    return this.storageRoot;
+  }
+
   async createJobWorkspace(
     jobId: string
   ): Promise<void> {
