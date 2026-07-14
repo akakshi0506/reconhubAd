@@ -10,10 +10,13 @@ export class AppError extends Error {
   ) {
     super(message);
 
+    this.name = "AppError";
     this.statusCode = statusCode;
-
     this.code = code;
 
-    Error.captureStackTrace(this, this.constructor);
+    Error.captureStackTrace?.(
+      this,
+      this.constructor
+    );
   }
 }

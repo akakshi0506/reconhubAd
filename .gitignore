@@ -32,3 +32,10 @@ exports
 
 # Generated
 *.tsbuildinfo
+# Runtime job storage
+storage/jobs/*
+!storage/jobs/.gitkeep
+
+# Local upload test files
+SAP.xlsx
+invalid.txt
