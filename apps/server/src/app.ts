@@ -9,6 +9,8 @@ import { registerPlugins } from "./core/plugins";
 import { registerHealthModule } from "./modules/health";
 import { registerJobModule } from "./modules/jobs";
 import { registerUploadModule } from "./modules/upload";
+import { registerReconciliationModule } from "./modules/reconciliation";
+import { registerReportModule } from "./modules/report";
 
 export async function buildApp() {
   const app = Fastify({
@@ -25,6 +27,8 @@ export async function buildApp() {
   await registerHealthModule(app);
   await registerJobModule(app);
   await registerUploadModule(app);
+  await registerReconciliationModule(app);
+  await registerReportModule(app);
 
   return app;
 }
