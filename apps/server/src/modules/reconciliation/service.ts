@@ -1,5 +1,5 @@
 import path from "node:path";
-
+import fs from "node:fs";
 import { storageService } from "../../core/storage/storage.service";
 
 import { reconciliationReader } from "./reader";
@@ -15,20 +15,22 @@ export class ReconciliationService {
   ): Promise<ReconciliationResult> {
     const root =
       storageService.getStorageRoot();
+     const uploadDir = path.join(root, jobId, "uploads");
 
-    const ucFile = path.join(
-      root,
-      jobId,
-      "uploads",
-      "UC (1).xlsx"
-    );
+     const files = fs.readdirSync(uploadDir);
 
-    const sapFile = path.join(
-      root,
-      jobId,
-      "uploads",
-      "SAP (1).xlsx"
-    );
+     const ucName = files.find((file) => file.toLowerCase().includes("uc"));
+
+     const sapName = files.find((file) => file.toLowerCase().includes("sap"));
+
+     if (!ucName || !sapName) {
+       throw new Error("UC or SAP workbook not found.");
+     }
+
+     const ucFile = path.join(uploadDir, ucName);
+
+     const sapFile = path.join(uploadDir, sapName);
+    
 
     const uc =
       await reconciliationReader.readWorkbook(

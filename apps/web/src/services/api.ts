@@ -32,26 +32,37 @@ export async function createJob() {
   return data as ApiResponse<Job>;
 }
 
-export async function uploadFile(
-  jobId: string,
-  file: File
-) {
+export async function uploadFile(jobId: string, file: File) {
   const formData = new FormData();
 
   formData.append("file", file);
 
-  const response = await fetch(
-    `${API_BASE}/jobs/${jobId}/files`,
-    {
-      method: "POST",
-      body: formData,
-    }
-  );
+  const response = await fetch(`${API_BASE}/jobs/${jobId}/files`, {
+    method: "POST",
+    body: formData,
+  });
 
   const data = await response.json();
 
   if (!response.ok) {
     throw new Error(data.message);
+  }
+
+  return data;
+}
+
+export async function reconcileJob(jobId: string) {
+  const response = await fetch(
+    `http://localhost:3000/jobs/${jobId}/reconcile`,
+    {
+      method: "POST",
+    },
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message ?? "Reconciliation failed");
   }
 
   return data;
