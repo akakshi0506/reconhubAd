@@ -17,23 +17,23 @@ export class ReportController {
     }>,
     reply: FastifyReply
   ) {
-    const reportPath = path.join(
-      storageService.getStorageRoot(),
-      request.params.jobId,
-      "reports",
-      "Reconciliation_Report.xlsx"
-    );
+   const reportPath = path.join(
+     storageService.getStorageRoot(),
+     request.params.jobId,
+     "output",
+     "Emami_Output.xlsx",
+   );
 
     const file = await fs.readFile(reportPath);
 
     reply
       .header(
         "Content-Type",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       )
       .header(
         "Content-Disposition",
-        'attachment; filename="Reconciliation_Report.xlsx"'
+        'attachment; filename="Emami_Output.xlsx"',
       );
 
     return reply.send(file);

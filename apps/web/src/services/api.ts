@@ -67,3 +67,16 @@ export async function reconcileJob(jobId: string) {
 
   return data;
 }
+export async function generateEmamiReport(jobId: string) {
+  const response = await fetch(`${API_BASE}/jobs/${jobId}/emami`, {
+    method: "POST",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message ?? "Emami report generation failed");
+  }
+
+  return data;
+}

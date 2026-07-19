@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 
 import { registerErrorHandler } from "./core/errors/error-handler";
+
 import {
   requestIdMiddleware,
   requestLogger,
@@ -11,7 +12,7 @@ import { registerJobModule } from "./modules/jobs";
 import { registerUploadModule } from "./modules/upload";
 import { registerReconciliationModule } from "./modules/reconciliation";
 import { registerReportModule } from "./modules/report";
-
+import { registerEmamiModule } from "./modules/emami";
 export async function buildApp() {
   const app = Fastify({
     logger: true,
@@ -29,6 +30,6 @@ export async function buildApp() {
   await registerUploadModule(app);
   await registerReconciliationModule(app);
   await registerReportModule(app);
-
+  await registerEmamiModule(app);
   return app;
 }
